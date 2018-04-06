@@ -4,11 +4,11 @@ See the TeamCity Build Status with Kuando Busylight
 
 ## Examples:
 
-#### KuandoBusylightForTeamcity.exe -h "<Host>" -b "&lt;BuildId>" -c "-u &lt;username> -p &lt;password>"
+#### KuandoBusylightForTeamcity.exe -h &lt;Host> -b &lt;BuildId> -c "-u &lt;username> -p &lt;password>"
 
-#### KuandoBusylightForTeamcity.exe install -a "-h ""&lt;Host>"" -b ""&lt;BuildId>"" -c """-u &lt;username> -p &lt;password>""""
+#### KuandoBusylightForTeamcity.exe install -a "-h &lt;Host> -b &lt;BuildId> -c """-u &lt;username> -p &lt;password>""""
 
-#### KuandoBusylightForTeamcity.exe uninstall -a "-h ""&lt;Host>"" -b ""&lt;BuildId>""
+#### KuandoBusylightForTeamcity.exe uninstall -a "-h &lt;Host> -b &lt;BuildId>"
 
 
 #### Commandline:

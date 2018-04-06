@@ -9,7 +9,7 @@ namespace KuandoBusylightForTeamCity.CommandLine
 {
     using Sundew.CommandLine;
 
-    public class InstallVerb : IVerb
+    public class InstallVerb : IInstallOptions, IVerb
     {
         public InstallVerb(RunOptions runOptions = null)
         {
@@ -18,6 +18,10 @@ namespace KuandoBusylightForTeamCity.CommandLine
 
         public RunOptions RunOptions { get; private set; }
 
+        IRunOptions IInstallOptions.RunOptions => this.RunOptions;
+
+        public bool Start { get; private set; }
+
         public string HelpText => "Installs Busylight for TeamCity as a Windows Service.";
 
         public string Name => "install";
@@ -25,6 +29,7 @@ namespace KuandoBusylightForTeamCity.CommandLine
         public void Configure(IArgumentsBuilder argumentsBuilder)
         {
             argumentsBuilder.AddRequired("a", "arguments", this.RunOptions, () => new RunOptions(null, null), value => this.RunOptions = value, "The arguments to use for the installed service.");
+            argumentsBuilder.AddSwitch("s", "start", this.Start, value => this.Start = value, "Starts the service after installation.");
         }
     }
 }

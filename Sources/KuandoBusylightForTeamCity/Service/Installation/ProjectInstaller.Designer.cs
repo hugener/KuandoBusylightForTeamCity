@@ -30,6 +30,7 @@
         {
             this.serviceProcessInstaller = new System.ServiceProcess.ServiceProcessInstaller();
             this.serviceInstaller = new System.ServiceProcess.ServiceInstaller();
+            this.serviceController = new System.ServiceProcess.ServiceController();
             // 
             // serviceProcessInstaller
             // 
@@ -56,5 +57,6 @@
 
         private System.ServiceProcess.ServiceProcessInstaller serviceProcessInstaller;
         private System.ServiceProcess.ServiceInstaller serviceInstaller;
+        private System.ServiceProcess.ServiceController serviceController;
     }
 }

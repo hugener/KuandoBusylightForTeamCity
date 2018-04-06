@@ -11,12 +11,12 @@ namespace KuandoBusylightForTeamCity.CommandLine
 
     public class UninstallVerb : IVerb
     {
-        public UninstallVerb(RunOptions runOptions = null)
+        public UninstallVerb(string buildTypeId)
         {
-            this.RunOptions = runOptions;
+            this.BuildTypeId = buildTypeId;
         }
 
-        public RunOptions RunOptions { get; private set; }
+        public string BuildTypeId { get; private set; }
 
         public string HelpText => "Uninstalls Busylight for TeamCity as a Windows Service.";
 
@@ -24,7 +24,7 @@ namespace KuandoBusylightForTeamCity.CommandLine
 
         public void Configure(IArgumentsBuilder argumentsBuilder)
         {
-            argumentsBuilder.AddRequired("a", "arguments", this.RunOptions, () => new RunOptions(null, null), value => this.RunOptions = value, "The arguments to use for the installed service.");
+            argumentsBuilder.AddRequired("b", "build-type-id", () => this.BuildTypeId, buildId => this.BuildTypeId = buildId, "Specifies the TeamCity build type id");
         }
     }
 }

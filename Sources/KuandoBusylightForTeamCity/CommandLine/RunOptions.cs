@@ -33,8 +33,8 @@ namespace KuandoBusylightForTeamCity.CommandLine
 
         public void Configure(IArgumentsBuilder argumentsBuilder)
         {
-            argumentsBuilder.AddRequired("h", "host-name", () => this.HostName, hostName => this.HostName = hostName, "Specifies the team city host name");
-            argumentsBuilder.AddRequired("b", "build-id", () => this.BuildTypeId, buildId => this.BuildTypeId = buildId, "Specifies the team city buildTypeId");
+            argumentsBuilder.AddRequired("h", "host-name", () => this.HostName, hostName => this.HostName = hostName, "Specifies the TeamCity host name");
+            argumentsBuilder.AddRequired("b", "build-type-id", () => this.BuildTypeId, buildId => this.BuildTypeId = buildId, "Specifies the TeamCity build type id");
             argumentsBuilder.AddOptional("c", "credentials", this.Credentials, () => new CredentialOptions(null, null), options => this.Credentials = options, "Specifies the credentials to connect to TeamCity");
             var refreshIntervalRange = new Range<TimeSpan>(TimeSpan.FromMilliseconds(200), TimeSpan.FromMinutes(10));
             argumentsBuilder.AddOptional(
@@ -42,7 +42,7 @@ namespace KuandoBusylightForTeamCity.CommandLine
                 "refresh-interval",
                 () => refreshIntervalRange.Limit(this.RefreshInterval).ToString(),
                 value => this.RefreshInterval = refreshIntervalRange.Limit(TimeSpan.Parse(value)),
-                $"The build status refresh interval within the: {refreshIntervalRange}");
+                $"The refresh interval within the {refreshIntervalRange}");
         }
     }
 }

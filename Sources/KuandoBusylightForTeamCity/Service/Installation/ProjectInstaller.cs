@@ -9,6 +9,7 @@ namespace KuandoBusylightForTeamCity.Service.Installation
 {
     using System.Collections;
     using System.ComponentModel;
+    using System.ServiceProcess;
     using KuandoBusylightForTeamCity.CommandLine;
     using Sundew.Base.Computation;
     using Sundew.CommandLine;
@@ -26,28 +27,50 @@ namespace KuandoBusylightForTeamCity.Service.Installation
             var arguments = this.Context.Parameters["a"];
             var assemblyPath = @"""" + this.Context.Parameters["assemblyPath"] + @""" " + arguments;
             this.Context.Parameters["assemblypath"] = assemblyPath;
-            this.SetServiceName(arguments);
+            this.ParseAndSetServiceName(arguments);
 
             base.OnBeforeInstall(savedState);
         }
 
         protected override void OnBeforeUninstall(IDictionary savedState)
         {
-            this.SetServiceName(this.Context.Parameters["a"]);
+            this.SetServiceName(this.Context.Parameters["b"]);
+            if (this.serviceController.Status == ServiceControllerStatus.Running)
+            {
+                this.serviceController.Stop();
+            }
+
             base.OnBeforeUninstall(savedState);
         }
 
-        private void SetServiceName(string arguments)
+        protected override void OnAfterInstall(IDictionary savedState)
+        {
+            if (this.serviceController.Status == ServiceControllerStatus.Stopped)
+            {
+                this.serviceController.Start();
+            }
+
+            base.OnAfterInstall(savedState);
+        }
+
+        private void ParseAndSetServiceName(string arguments)
         {
             var commandLineParser = new CommandLineParser<int, int>();
             commandLineParser.WithArguments(new RunOptions(null, null), options =>
             {
-                var servicePostfix = $": {options.BuildTypeId}";
-                this.serviceInstaller.ServiceName += servicePostfix;
-                this.serviceInstaller.DisplayName += servicePostfix;
+                var buildTypeId = options.BuildTypeId;
+                this.SetServiceName(buildTypeId);
                 return Result.Success(0);
             });
             commandLineParser.Parse(arguments);
+        }
+
+        private void SetServiceName(string buildTypeId)
+        {
+            var servicePostfix = $": {buildTypeId}";
+            this.serviceInstaller.ServiceName += servicePostfix;
+            this.serviceInstaller.DisplayName += servicePostfix;
+            this.serviceController.ServiceName = this.serviceInstaller.ServiceName;
         }
     }
 }

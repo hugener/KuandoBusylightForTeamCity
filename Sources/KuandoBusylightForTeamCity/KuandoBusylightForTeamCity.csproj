@@ -145,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildStatus.cs" />
+    <Compile Include="IInstallOptions.cs" />
     <Compile Include="TeamCityBuildStatusProvider.cs" />
     <Compile Include="TeamCityBusylightConnector.cs" />
     <Compile Include="BusylightController.cs" />

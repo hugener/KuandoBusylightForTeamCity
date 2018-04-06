@@ -27,8 +27,8 @@ namespace KuandoBusylightForTeamCity
             LogMessage(isConsole, logger, "Kuando Busylight for TeamCity");
 
             var commandLineParser = new CommandLineParser<int, int>();
-            commandLineParser.AddVerb(new InstallVerb(), installVerb => Result.From(new Installer().Install(installVerb.RunOptions), 0, new ParserError<int>(2)));
-            commandLineParser.AddVerb(new UninstallVerb(), uninstallVerb => Result.From(new Installer().Uninstall(uninstallVerb.RunOptions), 0, new ParserError<int>(3)));
+            commandLineParser.AddVerb(new InstallVerb(), installVerb => Result.From(new Installer().Install(installVerb), 0, new ParserError<int>(2)));
+            commandLineParser.AddVerb(new UninstallVerb(null), uninstallVerb => Result.From(new Installer().Uninstall(uninstallVerb.BuildTypeId), 0, new ParserError<int>(3)));
             commandLineParser.WithArguments(new RunOptions(null, null), options => Run(isConsole, options, logger));
 
             var result = commandLineParser.Parse(Environment.CommandLine, 1);

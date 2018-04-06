@@ -12,21 +12,23 @@ namespace KuandoBusylightForTeamCity.Service.Installation
 
     public class Installer
     {
-        public bool Install(IRunOptions runOptions)
+        public bool Install(IInstallOptions installOptions)
         {
-            ManagedInstallerClass.InstallHelper(new[] { GetServiceCommandLine(runOptions), "/LogFile=", Assembly.GetExecutingAssembly().Location, });
+            ManagedInstallerClass.InstallHelper(new[]
+            {
+                $@"/a=-h {installOptions.RunOptions.HostName} -b {installOptions.RunOptions.BuildTypeId}{GetCredentials(installOptions.RunOptions)} -ri {installOptions.RunOptions.RefreshInterval}",
+                $"/start={(installOptions.Start ? "true" : "false")}",
+                "/LogFile=",
+                Assembly.GetExecutingAssembly().Location,
+            });
+
             return true;
         }
 
-        public bool Uninstall(IRunOptions runOptions)
+        public bool Uninstall(string buildTypeId)
         {
-            ManagedInstallerClass.InstallHelper(new[] { "/u", GetServiceCommandLine(runOptions), "/LogFile=", Assembly.GetExecutingAssembly().Location });
+            ManagedInstallerClass.InstallHelper(new[] { "/u", $@"/b={buildTypeId}", "/LogFile=", Assembly.GetExecutingAssembly().Location });
             return true;
-        }
-
-        private static string GetServiceCommandLine(IRunOptions runOptions)
-        {
-            return $@"/a=-h {runOptions.HostName} -b {runOptions.BuildTypeId}{GetCredentials(runOptions)} -r {runOptions.RefreshInterval}";
         }
 
         private static string GetCredentials(IRunOptions runOptions)

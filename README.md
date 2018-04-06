@@ -30,4 +30,5 @@ Help
   -c  | --credentials      | Specifies the credentials to connect to TeamCity                            | Default: [none]
     -u | --username | Specifies the username | Required
     -p | --password | Specifies the password | Required
-  -ri | --refresh-interval | The refresh interval within the Range: min: 00:00:00.2000000, max: 00:10:00 | Default: 00:00:01```
+  -ri | --refresh-interval | The refresh interval within the Range: min: 00:00:00.2000000, max: 00:10:00 | Default: 00:00:01
+  ```

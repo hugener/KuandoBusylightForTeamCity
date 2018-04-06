@@ -10,7 +10,8 @@ See the TeamCity Build Status with Kuando Busylight
 #### KuandoBusylightForTeamcity.exe uninstall -b &lt;BuildTypeId>
 
 ## Commandline:
-```Help
+```
+Help
  Verbs:
   install | Installs Busylight for TeamCity as a Windows Service.
   -a | --arguments | The arguments to use for the installed service. | Required

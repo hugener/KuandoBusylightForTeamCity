@@ -22,7 +22,7 @@ See the TeamCity Build Status with Kuando Busylight
     -ri | --refresh-interval | The refresh interval within the Range: min: 00:00:00.2000000, max: 00:10:00 | Default: 00:00:01
   -s | --start     | Starts the service after installation.
   uninstall | Uninstalls Busylight for TeamCity as a Windows Service.
-  -b | --build-id | Specifies the team city buildTypeId | Required
+  -b | --build-type-id | Specifies the TeamCity build type id | Required
  Arguments:
   -h  | --host-name        | Specifies the TeamCity host name                                            | Required
   -b  | --build-type-id    | Specifies the TeamCity build type id                                        | Required

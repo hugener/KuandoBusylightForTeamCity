@@ -8,7 +8,9 @@
 namespace KuandoBusylightForTeamCity
 {
     using System;
+    using System.Reflection;
     using System.ServiceProcess;
+    using Busylight;
     using KuandoBusylightForTeamCity.CommandLine;
     using KuandoBusylightForTeamCity.Console;
     using KuandoBusylightForTeamCity.Service;
@@ -29,6 +31,7 @@ namespace KuandoBusylightForTeamCity
             var commandLineParser = new CommandLineParser<int, int>();
             commandLineParser.AddVerb(new InstallVerb(), installVerb => Result.From(new Installer().Install(installVerb), 0, new ParserError<int>(2)));
             commandLineParser.AddVerb(new UninstallVerb(null), uninstallVerb => Result.From(new Installer().Uninstall(uninstallVerb.BuildTypeId), 0, new ParserError<int>(3)));
+            commandLineParser.AddVerb(new ListDevicesVerb(), listDevicesVerb => Result.From(ListDevices(isConsole, logger), 0, new ParserError<int>(4)));
             commandLineParser.WithArguments(new RunOptions(null, null), options => Run(isConsole, options, logger));
 
             var result = commandLineParser.Parse(Environment.CommandLine, 1);
@@ -59,6 +62,17 @@ namespace KuandoBusylightForTeamCity
             }
 
             return Result.Success(0);
+        }
+
+        private static bool ListDevices(bool isConsole, ILogger logger)
+        {
+            LogMessage(isConsole, logger, "Connected devices:");
+            foreach (var busylightDevice in new SDK().GetAttachedBusylightDeviceList())
+            {
+                LogMessage(isConsole, logger, $"{busylightDevice.ProductID}: {(string)busylightDevice.GetType().GetField("HIDDevicePath", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(busylightDevice)}");
+            }
+
+            return true;
         }
 
         private static ILogger GetLogger(bool isConsole)

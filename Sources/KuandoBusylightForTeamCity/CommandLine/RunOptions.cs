@@ -8,17 +8,21 @@
 namespace KuandoBusylightForTeamCity.CommandLine
 {
     using System;
+    using System.Collections.Generic;
     using Sundew.Base.Numeric;
     using Sundew.CommandLine;
 
     public class RunOptions : IArguments, IRunOptions
     {
-        public RunOptions(string hostName, string buildTypeId, CredentialOptions credentials = null, TimeSpan? refreshInterval = null)
+        private readonly List<string> hidDeviceIds;
+
+        public RunOptions(string hostName, string buildTypeId, CredentialOptions credentials = null, TimeSpan? refreshInterval = null, List<string> hidDeviceIds = null)
         {
             this.HostName = hostName;
             this.BuildTypeId = buildTypeId;
             this.Credentials = credentials;
             this.RefreshInterval = refreshInterval ?? TimeSpan.FromMilliseconds(1000);
+            this.hidDeviceIds = hidDeviceIds ?? new List<string>();
         }
 
         public string HostName { get; private set; }
@@ -30,6 +34,8 @@ namespace KuandoBusylightForTeamCity.CommandLine
         ICredentials IRunOptions.Credentials => this.Credentials;
 
         public TimeSpan RefreshInterval { get; private set; }
+
+        public IReadOnlyList<string> HidDeviceIds => this.hidDeviceIds;
 
         public void Configure(IArgumentsBuilder argumentsBuilder)
         {
@@ -43,6 +49,7 @@ namespace KuandoBusylightForTeamCity.CommandLine
                 () => refreshIntervalRange.Limit(this.RefreshInterval).ToString(),
                 value => this.RefreshInterval = refreshIntervalRange.Limit(TimeSpan.Parse(value)),
                 $"The refresh interval within the {refreshIntervalRange}");
+            argumentsBuilder.AddOptionalList("d", "devices", this.hidDeviceIds, "The list of hid device ids", true);
         }
     }
 }

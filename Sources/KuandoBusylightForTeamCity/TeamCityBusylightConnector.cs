@@ -31,7 +31,7 @@ namespace KuandoBusylightForTeamCity
         public bool Start()
         {
             this.teamCityBuildStatusProvider = new TeamCityBuildStatusProvider(this.teamCityBuildStatusProviderReporter);
-            this.busylightController = new BusylightController();
+            this.busylightController = new BusylightController(this.runOptions.HidDeviceIds);
             if (!this.busylightController.Initialize())
             {
                 return false;

@@ -70,7 +70,7 @@
       <HintPath>..\packages\Sundew.Base.3.3.0\lib\netstandard1.2\Sundew.Base.dll</HintPath>
     </Reference>
     <Reference Include="Sundew.CommandLine, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sundew.CommandLine.2.0.0-pre007\lib\netstandard1.0\Sundew.CommandLine.dll</HintPath>
+      <HintPath>..\packages\Sundew.CommandLine.2.0.0-pre008\lib\netstandard1.0\Sundew.CommandLine.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -161,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildStatus.cs" />
+    <Compile Include="CommandLine\ListDevicesVerb.cs" />
     <Compile Include="IInstallOptions.cs" />
     <Compile Include="TeamCityBuildStatusProvider.cs" />
     <Compile Include="TeamCityBusylightConnector.cs" />

@@ -1,25 +1,22 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IRunOptions.cs" company="Hukano">
+// <copyright file="ListDevicesVerb.cs" company="Hukano">
 // Copyright (c) Hukano. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace KuandoBusylightForTeamCity
+namespace KuandoBusylightForTeamCity.CommandLine
 {
-    using System;
-    using System.Collections.Generic;
+    using Sundew.CommandLine;
 
-    public interface IRunOptions
+    public class ListDevicesVerb : IVerb
     {
-        string HostName { get; }
+        public string HelpText => "Lists the connected Busylight devices";
 
-        string BuildTypeId { get; }
+        public string Name => "listdevices";
 
-        ICredentials Credentials { get; }
-
-        TimeSpan RefreshInterval { get; }
-
-        IReadOnlyList<string> HidDeviceIds { get; }
+        public void Configure(IArgumentsBuilder argumentsBuilder)
+        {
+        }
     }
 }

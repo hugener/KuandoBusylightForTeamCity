@@ -69,7 +69,11 @@ namespace KuandoBusylightForTeamCity
         {
             this.manualResetEvent.Set();
             this.cancellationTokenSource.Cancel();
-            this.refreshThread.Join();
+            if (this.refreshThread.ThreadState != ThreadState.Unstarted)
+            {
+                this.refreshThread.Join();
+            }
+
             this.cancellationTokenSource.Dispose();
             this.manualResetEvent.Dispose();
         }
@@ -87,10 +91,17 @@ namespace KuandoBusylightForTeamCity
             var lastBuild = this.teamCityClient.Builds
                 .GetFields(BuildsField
                     .WithFields(BuildField.WithFields(
-                        changes: ChangesField.WithFields(ChangeField.WithFields(true)), status: true))
-                    .ToString()).LastBuildByBuildConfigId(buildTypeId);
+                        true,
+                        true,
+                        changes: ChangesField.WithFields(ChangeField.WithFields(true)),
+                        status: true))
+                    .ToString()).ByBuildConfigId(buildTypeId).OrderByDescending(x => x.Number).FirstOrDefault();
+            if (lastBuild != null)
+            {
+                return new BuildStatus(queuedBuild != null | runningBuild != null | GetHasPendingChanges(pendingChanges, lastBuild), lastBuild.Status);
+            }
 
-            return new BuildStatus(queuedBuild != null | runningBuild != null | GetHasPendingChanges(pendingChanges, lastBuild), lastBuild.Status);
+            return new BuildStatus(false, "None");
         }
 
         private void RefreshBuildStatus(object state)

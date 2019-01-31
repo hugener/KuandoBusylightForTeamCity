@@ -14,9 +14,9 @@ namespace KuandoBusylightForTeamCity
 
     public class BusylightController : IDisposable
     {
-        private SDK busylightSdk;
+        private readonly SDK busylightSdk;
+        private readonly Timer timer;
         private BusylightColor busylightColor;
-        private Timer timer;
         private bool timerOn = false;
         private bool isAlternateColor;
 
